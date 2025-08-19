@@ -6,3 +6,4 @@ build:
 
 ---
 image: canary-app
+dockerfile: Dockerfile
