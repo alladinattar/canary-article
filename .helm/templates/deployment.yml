@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canary-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: canary-app
+  template:
+    metadata:
+      labels:
+        app: canary-app
+    spec:
+      imagePullSecrets:
+        - name: registrysecret
+      containers:
+      - name: canary-app
+        image: {{ $.Values.werf.image.canary-app }}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "50Mi"
+
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+      
+      nodeSelector:
+        node-role.kubernetes.io/worker: ""
