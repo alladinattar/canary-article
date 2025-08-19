@@ -1,0 +1,8 @@
+stages:
+  - build
+
+build:
+  stage: build
+  image: ubuntu:22.04
+  script:
+    - echo "Hello world"
