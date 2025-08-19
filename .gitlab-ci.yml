@@ -13,7 +13,7 @@ default:
 prod:
   stage: prod
   script:
-    - werf build
+    - werf
   environment:
     name: prod
   rules:
