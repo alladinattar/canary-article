@@ -1,0 +1,19 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: app-vsvc
+spec:
+  hosts:
+    - app
+  http:
+    - name: primary
+      route:
+        - destination:
+            host: app
+            subset: stable
+          weight: 100
+        - destination:
+            host: app
+            subset: canary
+          weight: 0

@@ -1,0 +1,53 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: app
+spec:
+  strategy:
+    canary:
+      analysis:
+        templates:
+          - templateName: success-rate
+        startingStep: 2 # delay starting analysis run until setWeight: 40%
+        args:
+          - name: service-name
+            value: app.default.svc.cluster.local
+      trafficRouting:
+        istio:
+          virtualService:
+            name: app-vsvc
+            routes:
+              - primary
+          destinationRule:
+            name: app-destrule
+            canarySubsetName: canary
+            stableSubsetName: stable
+      steps:
+        - setWeight: 20
+        - pause: { duration: 1m }
+        - setWeight: 40
+        - pause: { duration: 1m }
+        - setWeight: 60
+        - pause: { duration: 1m }
+        - setWeight: 80
+        - pause: { duration: 1m }
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: rinamuka/canary:v1
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              memory: 16Mi
+              cpu: 5m

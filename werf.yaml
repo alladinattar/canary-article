@@ -1,8 +1,0 @@
-project: canary-app
-configVersion: 1
-
-build:
-  platform: ["linux/amd64"]
-
----
-image: canary-app
