@@ -1,4 +1,15 @@
-# Build
+# General
+
+This repo is an example of setting up a canary deployment using Argo Rollout and the Istio service mesh.
+
+## Repo structure
+
+```
+app/ - directory containing the example application code
+manifests/ - directory containing the Kubernetes manifests for canary deployment
+```
+
+## Build example app
 
 Build v1
 
