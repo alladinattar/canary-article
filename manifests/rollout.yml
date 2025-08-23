@@ -9,7 +9,7 @@ spec:
       analysis:
         templates:
           - templateName: success-rate
-        startingStep: 2 # delay starting analysis run until setWeight: 40%
+        startingStep: 2
         args:
           - name: service-name
             value: app.default.svc.cluster.local
@@ -25,13 +25,13 @@ spec:
             stableSubsetName: stable
       steps:
         - setWeight: 20
-        - pause: { duration: 1m }
+        - pause: { duration: 3m }
         - setWeight: 40
-        - pause: { duration: 1m }
+        - pause: { duration: 3m }
         - setWeight: 60
-        - pause: { duration: 1m }
+        - pause: { duration: 3m }
         - setWeight: 80
-        - pause: { duration: 1m }
+        - pause: { duration: 3m }
   selector:
     matchLabels:
       app: backend
@@ -49,5 +49,8 @@ spec:
               protocol: TCP
           resources:
             requests:
-              memory: 16Mi
+              memory: 5Mi
               cpu: 5m
+            limits:
+              memory: 10Mi
+              cpu: 10m
